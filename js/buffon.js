@@ -6,6 +6,7 @@ let innerPoints = 0;
 let counter = 0;
 let scaler = 1.2
 let nLines = 5;
+let lineLength;
 
 function setup() {
     // if (n > 50000) {
@@ -25,11 +26,11 @@ function setup() {
     }
     createCanvas(scaler * size / res, scaler * size / res);
     arr = [];
-    let v = p5.Vector.random2D();
     for (let i = 0; i < n; i++) {
         let v = {
             x: random(width),
             y: random(height),
+            theta: random(Math.PI)
         };
         let angle = random(2 * PI);
         console.log(angle);
@@ -97,6 +98,18 @@ window.addEventListener("resize", function (event) {
 function draw() {
     if (counter == n) {
         noLoop();
+    }
+    lineLength = 0.5 * width / nLines;
+    for(let i = 0; i < n; i++){
+        let v = arr[i];
+        console.log(v)
+
+        stroke(2);
+        let x1 = v.x + Math.cos(v.theta) * lineLength;
+        let y1 = v.y + Math.sin(v.theta) * lineLength;
+        let x2 = v.x - Math.cos(v.theta) * lineLength;
+        let y2 = v.y - Math.sin(v.theta) * lineLength;
+        line(x1, y1, x2, y2);
     }
     fill(
         Math.floor(random(255)),
